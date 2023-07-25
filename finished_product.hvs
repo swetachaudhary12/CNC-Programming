@@ -1,0 +1,84 @@
+Facing and Step Turning:
+O0001;                                                      # Operation start
+G21 G90;                                                  # Absolute Dimensions in metric (mm)
+G50 X50 Z4;                                            # Define tool Home position
+M06 T0202;                                               #Tool Change
+G97 S1200 M03;                                               #Spindle start
+G99;
+G00 X50 Z1;                                    
+M08;                                                          #Coolant ON
+G01 X-2 F0.2;
+G00 X50 Z2;
+G00 Z0;
+G01 X-2 F0.2;
+G00 X50 Z2;
+G00 X44;                                                            #Step Turning starts
+G01 Z-130 F0.2;
+G00 X50 Z2;
+G00 X43;
+G01 Z-130 F0.2;
+G00 X50 Z2;
+G00 X42;
+G01 Z-130 F0.2;
+G00 X50 Z2;
+G00 X41;
+G01 Z-130 F0.2;
+G00 X50 Z2;
+G00 X40;
+G01 Z-130 F0.2;
+G01 X50;
+G28 U0 W0;
+M05;                                                                 #Spindle stop
+M09;                                                                #Coolant off
+M30;                                                                  #Program stop
+
+O0002;                                                                 #Threading starts
+G28 U0 W0;                                                    # Tool Home position
+M06 T0302;                                                     #Tool Change
+G97 S600 M03;                                                #Spindle start
+G99;                                                             # Feed in mm per revolution
+G00 X42 Z90 M08;                                       #Spindle Start
+G76 P020060 Q100 R70;                            #threading cycle: P- MRA, where M is Finish Cut, R  
+                                                                    is Chamfering amount (00-99) and A is Thread Angle 
+                                                                        Q - Repetition cuts in micron - 13 cuts in micro
+                                                                         R - Finishing amount, Final cut
+ G76 X37.40 Z-110 P1300 Q100 F1.5;                #R - Taper value, P- Total depth of thread on 
+ G80 (canned cycle)                                                                           one side, Q - Depth of first cut, F- Thread Pitch
+G28 U0 W0;
+
+M05;                                                                 #Spindle stop
+M09;                                                                #Coolant off
+M30;                                                                  #Program stop
+O0003;                                                              #Grooving
+G28 U0 W0;                                                     # Tool Home position
+M06 T0402;                                                      #Tool Change
+G97 S600 M03;                                                #Spindle start
+G99;                                                                 # Feed in mm per revolution
+G00 X42.0 Z2 M08;
+G00 Z-64;
+G75 R1;                                                            # R - Retraction amount
+G75 X30 Z-70 P1000 Q4000 F1.5;                      # P depth of cut in x-axis in micro, Q is depth of 
+                                                                               cut in z-axis in micro
+G28 U0 W0;
+M05;                                                             #Spindle stop
+M09;                                                             #Coolant off
+M30;                                                             #Program stop
+O0004;                                                                 #Taper
+G28 U0 W0;                                                     # Tool Home position
+M06 T0502;                                                      #Tool Change
+G97 S600 M03;                                                #Spindle start
+G98;                                                                 # Feed in mm per minute
+G01 X39 Z0;
+G01 X40 Z-40 F35;
+G00 X38 Z0;
+G01 X40 Z-40 F35;
+G00 X37 Z0;
+G01 X40 Z-40 F35;
+G00 X36 Z0;
+G01 X40 Z-40 F35;
+G00 X35 Z0;
+G01 X40 Z-40 F35;
+G00 Z1;
+M05;                                                                  #Spindle stop
+M09;                                                                 #Coolant off
+M30;                                                                  #Program stop
